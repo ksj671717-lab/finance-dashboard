@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구황작물 프로덕션</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --potato: #C8A165;
+  --sweetpotato: #9B5A63;
+  --corn: #F1C453;
+  --leaf: #7EA26B;
+  --soil: #6B5946;
+  --cream: #FAF6EF;
+  --white: #FFFFFF;
+  --black: #2A2118;
+  --gray: #7A6A5A;
+}
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--cream); color: var(--black); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(250,246,239,0.95); backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--corn);
+  padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; color: var(--black); }
+.nav-badge {
+  background: var(--corn); color: var(--black);
+  font-size: 11px; font-weight: 900; padding: 3px 10px;
+  border-radius: 99px; letter-spacing: 0.05em;
+}
+.nav-chars { display: flex; gap: 2px; font-size: 20px; }
+.nav-links { display: flex; gap: 2rem; }
+.nav-links a { font-size: 13px; color: var(--gray); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--black); }
+
+/* HERO */
+.hero {
+  margin-top: 64px;
+  padding: 72px 2rem 56px;
+  background: var(--cream);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-deco {
+  position: absolute; font-size: 80px; opacity: 0.08;
+  pointer-events: none; user-select: none;
+}
+.hero-deco-1 { top: 10px; left: 5%; }
+.hero-deco-2 { bottom: 10px; right: 5%; }
+.hero-tag {
+  display: inline-block;
+  background: var(--corn); color: var(--black);
+  font-size: 11px; font-weight: 900; padding: 5px 14px;
+  border-radius: 99px; margin-bottom: 24px;
+  letter-spacing: 0.1em;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 7vw, 4.5rem);
+  font-weight: 900; line-height: 1.2;
+  letter-spacing: -0.03em; margin-bottom: 20px;
+  color: var(--black);
+}
+.hero h1 .highlight {
+  display: inline-block;
+  background: var(--corn);
+  padding: 0 8px 4px;
+  border-radius: 8px;
+  line-height: 1.15;
+}
+.hero-sub { font-size: 16px; color: var(--gray); line-height: 1.8; margin-bottom: 32px; }
+.hero-chars {
+  display: flex; justify-content: center; gap: 16px;
+  margin-top: 8px;
+}
+.char-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.char-emoji { font-size: 48px; animation: bounce 2s infinite; }
+.char-emoji:nth-child(1) { animation-delay: 0s; }
+.char-item:nth-child(2) .char-emoji { animation-delay: 0.2s; }
+.char-item:nth-child(3) .char-emoji { animation-delay: 0.4s; }
+.char-item:nth-child(4) .char-emoji { animation-delay: 0.6s; }
+.char-name { font-size: 11px; font-weight: 700; color: var(--gray); }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* DIVIDER */
+.divider { text-align: center; padding: 8px 0; font-size: 20px; letter-spacing: 8px; opacity: 0.3; }
+
+/* SECTION */
+.section-wrap { padding: 56px 2rem; max-width: 1080px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--potato); text-transform: uppercase; margin-bottom: 6px; }
+.section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--black); }
+
+/* FILTER */
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.filter-btn {
+  font-size: 13px; font-weight: 700; padding: 7px 18px;
+  border-radius: 99px; border: 2px solid #DDD4C4;
+  background: white; color: var(--gray); cursor: pointer;
+  transition: all 0.18s; font-family: 'Noto Sans KR', sans-serif;
+}
+.filter-btn:hover { border-color: var(--corn); color: var(--black); }
+.filter-btn.active { background: var(--corn); border-color: var(--corn); color: var(--black); }
+
+/* GRID */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.card {
+  border-radius: 16px; overflow: hidden;
+  background: white;
+  border: 2px solid #EDE5D8;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(106,89,70,0.15); }
+.card-thumb {
+  position: relative; width: 100%; padding-top: 56.25%;
+  background: #EDE5D8; overflow: hidden;
+}
+.card-thumb a {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+}
+.card-thumb img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover;
+}
+.play-btn {
+  position: absolute;
+  width: 56px; height: 56px;
+  background: rgba(0,0,0,0.65);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+  z-index: 2;
+}
+.play-btn svg { width: 22px; height: 22px; fill: white; margin-left: 3px; }
+.card:hover .play-btn { transform: scale(1.1); background: var(--corn); }
+.card:hover .play-btn svg { fill: var(--black); }
+.card-body { padding: 16px 18px 18px; }
+.card-cat {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--potato); margin-bottom: 6px; text-transform: uppercase;
+}
+.card-title { font-size: 15px; font-weight: 700; line-height: 1.45; color: var(--black); }
+.card.hidden { display: none; }
+
+/* ABOUT */
+.about-wrap {
+  background: var(--black); border-radius: 20px;
+  padding: 48px 48px 48px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+  border: 3px solid var(--soil);
+  position: relative; overflow: hidden;
+}
+.about-wrap::before {
+  content: '';
+  position: absolute; top: -30px; right: -30px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(241,196,83,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.about-left h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; color: white; margin-bottom: 14px; letter-spacing: -0.02em; line-height: 1.3; }
+.about-left h2 span { color: var(--corn); }
+.about-left p { font-size: 15px; color: #BFB8AE; line-height: 1.85; max-width: 400px; }
+.about-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+.about-tag {
+  font-size: 12px; font-weight: 700; padding: 6px 14px;
+  border-radius: 99px;
+  border: 2px solid rgba(241,196,83,0.4);
+  color: var(--corn);
+}
+.about-right { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.about-chars { display: flex; gap: 8px; font-size: 48px; }
+.about-caption { font-size: 12px; color: #BFB8AE; font-weight: 700; letter-spacing: 0.05em; }
+
+/* TEAM */
+.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.team-card {
+  background: white; border-radius: 16px; padding: 24px 16px;
+  text-align: center; border: 2px solid #EDE5D8;
+  transition: transform 0.2s;
+}
+.team-card:hover { transform: translateY(-4px); }
+.team-emoji { font-size: 52px; margin-bottom: 10px; }
+.team-name { font-size: 16px; font-weight: 900; color: var(--black); margin-bottom: 4px; }
+.team-role { font-size: 12px; color: var(--potato); font-weight: 700; margin-bottom: 8px; }
+.team-desc { font-size: 12px; color: var(--gray); line-height: 1.6; }
+
+/* FOOTER */
+footer {
+  text-align: center; padding: 32px;
+  font-size: 13px; color: var(--gray);
+  border-top: 2px solid #EDE5D8;
+  background: white;
+}
+footer strong { color: var(--black); }
+.footer-chars { font-size: 24px; margin-bottom: 8px; letter-spacing: 4px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-chars">🥔🍠🌽🌸</div>
+    <div>
+      <div class="nav-badge">구황작물</div>
+    </div>
+    <span>프로덕션</span>
+  </div>
+  <div class="nav-links">
+    <a href="#works">작업물</a>
+    <a href="#team">팀 소개</a>
+    <a href="#about">우리는</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-deco hero-deco-1">🥔</div>
+  <div class="hero-deco hero-deco-2">🌽</div>
+  <div class="hero-tag">GWANGJAK PRODUCTION</div>
+  <h1>현장을 담고<br><span class="highlight">이야기를 만듭니다</span></h1>
+  <p class="hero-sub">영상 촬영 및 편집 · 행사 대행<br>지자체부터 웨딩까지, 모든 순간을 기록합니다.</p>
+  <div class="hero-chars">
+    <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/char_potato.png" alt="감자" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s infinite;"><div class="char-name">감자</div></div>
+    <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/char_sweetpotato.png" alt="고구마" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s 0.2s infinite;"><div class="char-name">고구마</div></div>
+    <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/char_corn.png" alt="옥수수" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s 0.4s infinite;"><div class="char-name">옥수수</div></div>
+    <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/char_flower.png" alt="메밀꽃" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s 0.6s infinite;"><div class="char-name">메밀꽃</div></div>
+  </div>
+</div>
+
+<div class="divider">· · · · ·</div>
+
+<div class="section-wrap" id="works">
+  <div class="section-label">Works</div>
+  <div class="section-title">작업물</div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filter('all', this)">🌾 전체</button>
+    <button class="filter-btn" onclick="filter('event', this)">🎪 행사 스케치</button>
+    <button class="filter-btn" onclick="filter('ad', this)">🎬 광고 / 상업</button>
+    <button class="filter-btn" onclick="filter('timelapse', this)">⏱ 타임랩스</button>
+  </div>
+  <div class="grid" id="grid">
+    <div class="card" data-cat="event">
+      <div class="card-thumb">
+        <a href="https://youtu.be/g1vTy8AlLGo" target="_blank">
+          <img src="https://img.youtube.com/vi/g1vTy8AlLGo/maxresdefault.jpg" alt="2025 제천작은미술관 행사 스케치" onerror="this.src='https://img.youtube.com/vi/g1vTy8AlLGo/hqdefault.jpg'">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">행사 스케치</div>
+        <div class="card-title">2025 제천작은미술관 행사 스케치</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="timelapse">
+      <div class="card-thumb">
+        <a href="https://youtu.be/xc_ufmQKIuI" target="_blank">
+          <img src="https://img.youtube.com/vi/xc_ufmQKIuI/maxresdefault.jpg" alt="리모델링 타임랩스" onerror="this.src='https://img.youtube.com/vi/xc_ufmQKIuI/hqdefault.jpg'">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">타임랩스</div>
+        <div class="card-title">리모델링 타임랩스</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="ad">
+      <div class="card-thumb">
+        <a href="https://youtu.be/_io9umdCKR8" target="_blank">
+          <img src="https://img.youtube.com/vi/_io9umdCKR8/maxresdefault.jpg" alt="광고 촬영 현장 스케치" onerror="this.src='https://img.youtube.com/vi/_io9umdCKR8/hqdefault.jpg'">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">광고 / 상업</div>
+        <div class="card-title">광고 촬영 현장 스케치</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="event">
+      <div class="card-thumb">
+        <a href="https://youtu.be/fxaK2ojYORk" target="_blank">
+          <img src="https://img.youtube.com/vi/fxaK2ojYORk/maxresdefault.jpg" alt="지자체 교육프로그램 스케치" onerror="this.src='https://img.youtube.com/vi/fxaK2ojYORk/hqdefault.jpg'">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">행사 스케치</div>
+        <div class="card-title">지자체 교육프로그램 스케치</div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="ad event">
+      <div class="card-thumb">
+        <a href="https://youtu.be/CdBhhTvjLus" target="_blank">
+          <img src="https://img.youtube.com/vi/CdBhhTvjLus/maxresdefault.jpg" alt="평창관광문화재단 더위사냥축제 스팟광고" onerror="this.src='https://img.youtube.com/vi/CdBhhTvjLus/hqdefault.jpg'">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">광고 / 행사</div>
+        <div class="card-title">평창관광문화재단 더위사냥축제 스팟광고</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider">· · · · ·</div>
+
+<div class="section-wrap" id="team">
+  <div class="section-label">Team</div>
+  <div class="section-title">구황작물 패밀리 🌾</div>
+  <div class="team-grid">
+    <div class="team-card">
+      <img src="https://ksj671717-lab.github.io/finance-dashboard/char_potato.png" alt="감자" style="width:100px;height:100px;object-fit:contain;margin-bottom:10px;">
+      <div class="team-name">감자</div>
+      <div class="team-role">든든한 리더</div>
+      <div class="team-desc">프로덕션의 감독<br>현장을 이끄는 든든한 중심</div>
+    </div>
+    <div class="team-card">
+      <img src="https://ksj671717-lab.github.io/finance-dashboard/char_sweetpotato.png" alt="고구마" style="width:100px;height:100px;object-fit:contain;margin-bottom:10px;">
+      <div class="team-name">고구마</div>
+      <div class="team-role">아이디어 뱅크</div>
+      <div class="team-desc">기획과 연출 담당<br>달달한 아이디어로 가득</div>
+    </div>
+    <div class="team-card">
+      <img src="https://ksj671717-lab.github.io/finance-dashboard/char_corn.png" alt="옥수수" style="width:100px;height:100px;object-fit:contain;margin-bottom:10px;">
+      <div class="team-name">옥수수</div>
+      <div class="team-role">현장 분위기 메이커</div>
+      <div class="team-desc">사운드 & 현장 담당<br>어디서든 빛나는 존재</div>
+    </div>
+    <div class="team-card">
+      <img src="https://ksj671717-lab.github.io/finance-dashboard/char_flower.png" alt="메밀꽃" style="width:100px;height:100px;object-fit:contain;margin-bottom:10px;">
+      <div class="team-name">메밀꽃</div>
+      <div class="team-role">꼼꼼한 기록러</div>
+      <div class="team-desc">편집 & 디자인 담당<br>섬세하게 마무리하는 팀의 꽃</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-wrap" id="about" style="padding-top: 0;">
+  <div class="about-wrap">
+    <div class="about-left">
+      <h2>우리는 <span>구황작물</span><br>프로덕션입니다</h2>
+      <p>다양한 개성과 재능을 가진 팀원들이 모여 따뜻하고 유쾌한 영상을 만들어가는 프로덕션입니다. 지자체 행사부터 웨딩, 광고 촬영까지 모든 현장에서 최선을 다합니다.</p>
+      <div class="about-tags">
+        <span class="about-tag">영상 촬영</span>
+        <span class="about-tag">영상 편집</span>
+        <span class="about-tag">행사 대행</span>
+        <span class="about-tag">웨딩 촬영</span>
+        <span class="about-tag">광고 제작</span>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-chars">🥔🍠🌽🌸</div>
+      <div class="about-caption">좋은 영상, 함께 만들어요!</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-chars">🥔🍠🌽🌸</div>
+  <strong>구황작물 프로덕션</strong><br>
+  영상 촬영 및 편집 / 행사 대행
+</footer>
+
+<script>
+function filter(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    if (cat === 'all' || card.dataset.cat.includes(cat)) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+</script>
+</body>
+</html>
