@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>재무 현황 대시보드</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #fff; padding: 1.5rem; min-height: 100vh; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+  .card { background: #1a1a1a; border-radius: 12px; border: 0.5px solid #2c2c2c; padding: 1.25rem; }
+  .card-label { font-size: 12px; color: #898781; margin-bottom: 6px; }
+  .card-value { font-size: 28px; font-weight: 500; line-height: 1.1; }
+  .card-value.negative { color: #e66767; }
+  .card-value.positive { color: #008300; }
+  .card-value.goal { color: #3987e5; }
+  .card-sub { font-size: 12px; color: #c3c2b7; margin-top: 4px; }
+  .section-title { font-size: 13px; font-weight: 500; color: #c3c2b7; margin-bottom: 10px; letter-spacing: 0.04em; }
+  .meter-wrap { background: #1a1a1a; border-radius: 12px; border: 0.5px solid #2c2c2c; padding: 1.25rem; margin-bottom: 1rem; }
+  .meter-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .meter-name { font-size: 14px; font-weight: 500; color: #fff; }
+  .meter-pct { font-size: 13px; color: #898781; }
+  .track { height: 10px; background: #2c2c2c; border-radius: 99px; overflow: hidden; margin-bottom: 8px; }
+  .fill { height: 100%; border-radius: 99px; transition: width 1s cubic-bezier(.4,0,.2,1); }
+  .fill.negative { background: #e34948; }
+  .fill.near { background: #eda100; }
+  .fill.good { background: #008300; }
+  .meter-footer { display: flex; justify-content: space-between; font-size: 11px; color: #898781; }
+  .milestone-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .milestone { font-size: 11px; padding: 4px 10px; border-radius: 99px; border: 0.5px solid #2c2c2c; color: #898781; }
+  .milestone.reached { background: #0a2a0a; color: #008300; border-color: #008300; }
+  .input-row { display: flex; gap: 8px; align-items: center; }
+  input[type=number] { flex: 1; background: #1a1a1a; border: 0.5px solid #2c2c2c; border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 14px; outline: none; }
+  input[type=number]:focus { border-color: #3987e5; }
+  button { background: transparent; border: 0.5px solid #3987e5; color: #3987e5; border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; white-space: nowrap; }
+  button:hover { background: rgba(57,135,229,0.1); }
+  .updated { font-size: 11px; color: #898781; margin-top: 8px; text-align: right; }
+</style>
+</head>
+<body>
+<div class="cards">
+  <div class="card">
+    <div class="card-label">현재 잔액</div>
+    <div class="card-value negative" id="cur-val">-₩5,385,732</div>
+    <div class="card-sub" id="cur-sub">목표까지 ₩25,385,732 남음</div>
+  </div>
+  <div class="card">
+    <div class="card-label">목표 금액</div>
+    <div class="card-value goal">₩20,000,000</div>
+    <div class="card-sub">2026년 연말 목표</div>
+  </div>
+</div>
+<div class="section-title">목표 달성률</div>
+<div class="meter-wrap">
+  <div class="meter-header">
+    <span class="meter-name">₩20,000,000 목표</span>
+    <span class="meter-pct" id="pct-text">-26.9%</span>
+  </div>
+  <div class="track"><div class="fill negative" id="meter-fill" style="width:0%"></div></div>
+  <div class="meter-footer">
+    <span>-₩10,000,000</span>
+    <span>₩20,000,000</span>
+  </div>
+</div>
+<div class="section-title">마일스톤</div>
+<div class="milestone-row">
+  <div class="milestone" id="m0">0원 도달</div>
+  <div class="milestone" id="m1">₩500만 달성</div>
+  <div class="milestone" id="m2">₩1,000만 달성</div>
+  <div class="milestone" id="m3">₩1,500만 달성</div>
+  <div class="milestone" id="m4">₩2,000만 달성</div>
+</div>
+<div class="input-row">
+  <input type="number" id="new-amount" placeholder="현재 잔액 입력 (예: -3500000)" />
+  <button onclick="updateDash()">업데이트</button>
+</div>
+<div class="updated" id="updated-time"></div>
+<script>
+const GOAL = 20000000;
+const MIN = -10000000;
+function fmt(n) {
+  return (n < 0 ? '-₩' : '₩') + Math.abs(Math.round(n)).toLocaleString('ko-KR');
+}
+function updateDash(val) {
+  const cur = val !== undefined ? val : parseFloat(document.getElementById('new-amount').value);
+  if (isNaN(cur)) return;
+  const remaining = GOAL - cur;
+  const ratio = (cur - MIN) / (GOAL - MIN);
+  const pct = ((cur / GOAL) * 100).toFixed(1);
+  const fillPct = Math.max(0, Math.min(100, ratio * 100));
+  document.getElementById('cur-val').textContent = fmt(cur);
+  document.getElementById('cur-val').className = 'card-value ' + (cur >= 0 ? 'positive' : 'negative');
+  document.getElementById('cur-sub').textContent = '목표까지 ' + fmt(remaining) + ' 남음';
+  document.getElementById('pct-text').textContent = pct + '%';
+  const fill = document.getElementById('meter-fill');
+  fill.style.width = fillPct + '%';
+  fill.className = 'fill ' + (cur < 0 ? 'negative' : cur < GOAL * 0.5 ? 'near' : 'good');
+  const milestones = [0, 5000000, 10000000, 15000000, 20000000];
+  ['m0','m1','m2','m3','m4'].forEach((id, i) => {
+    document.getElementById(id).className = 'milestone' + (cur >= milestones[i] ? ' reached' : '');
+  });
+  const now = new Date();
+  document.getElementById('updated-time').textContent = '마지막 업데이트: ' + now.toLocaleString('ko-KR');
+  localStorage.setItem('finance-amount', cur);
+}
+const saved = localStorage.getItem('finance-amount');
+setTimeout(() => updateDash(saved ? parseFloat(saved) : -5385732), 300);
+</script>
+</body>
+</html>
