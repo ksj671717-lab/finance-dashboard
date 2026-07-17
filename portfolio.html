@@ -216,9 +216,9 @@ footer strong { color: var(--black); }
     <span>프로덕션</span>
   </div>
   <div class="nav-links">
-    <a href="#works">작업물</a>
+    <a href="#works">포트폴리오</a>
     <a href="#team">팀 소개</a>
-    <a href="#about">우리는</a>
+    
   </div>
 </nav>
 
@@ -231,7 +231,7 @@ footer strong { color: var(--black); }
   <div class="hero-chars">
     <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/real_potato.png" alt="감자" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s infinite;"><div class="char-name">감자</div></div>
     <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/real_sweat.png" alt="고구마" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s 0.2s infinite;"><div class="char-name">고구마</div></div>
-    <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/real_corn.png" alt="옥수수" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s 0.4s infinite;"><div class="char-name">옥수수</div></div>
+    <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/real_corn.png" alt="강냉이" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s 0.4s infinite;"><div class="char-name">강냉이</div></div>
     <div class="char-item"><img src="https://ksj671717-lab.github.io/finance-dashboard/real_flower.png" alt="메밀꽃" style="width:72px;height:72px;object-fit:contain;animation:bounce 2s 0.6s infinite;"><div class="char-name">메밀꽃</div></div>
   </div>
 </div>
@@ -239,81 +239,99 @@ footer strong { color: var(--black); }
 <div class="divider">· · · · ·</div>
 
 <div class="section-wrap" id="works">
+  
   <div class="section-label">Works</div>
-  <div class="section-title">작업물</div>
-  <div class="filter-row">
-    <button class="filter-btn active" onclick="filter('all', this)">🌾 전체</button>
-    <button class="filter-btn" onclick="filter('event', this)">🎪 행사 스케치</button>
-    <button class="filter-btn" onclick="filter('ad', this)">🎬 광고 / 상업</button>
-    <button class="filter-btn" onclick="filter('timelapse', this)">⏱ 타임랩스</button>
-    <button class="filter-btn" onclick="filter('ai', this)">🤖 AI 영상</button>
-    <button class="filter-btn" onclick="filter('eventphoto', this)">📸 행사 사진</button>
-    <button class="filter-btn" onclick="filter('interior', this)">🏠 인테리어 사진</button>
-    <button class="filter-btn" onclick="filter('profile', this)">🙂 프로필 사진</button>
+  <div class="section-title">포트폴리오</div>
+
+  <div class="tab-row" style="display:flex;gap:12px;margin-bottom:32px;">
+    <button onclick="switchTab('video', this)" style="font-size:15px;font-weight:700;padding:14px 32px;border:2px solid #2A2118;background:#2A2118;color:#F1C453;cursor:pointer;font-family:'Noto Sans KR',sans-serif;border-radius:99px;transition:all 0.2s;" id="tab-btn-video">🎬 영상 포트폴리오</button>
+    <button onclick="switchTab('photo', this)" style="font-size:15px;font-weight:700;padding:12px 28px;border:2px solid #EDE5D8;background:white;color:#7A6A5A;cursor:pointer;font-family:'Noto Sans KR',sans-serif;border-radius:99px;transition:all 0.2s;" id="tab-btn-photo">📸 사진 포트폴리오</button>
   </div>
-  <div class="grid" id="grid">
-    <div class="card" data-cat="event">
-      <div class="card-thumb">
-        <a href="https://youtu.be/g1vTy8AlLGo" target="_blank">
-          <img src="https://img.youtube.com/vi/g1vTy8AlLGo/maxresdefault.jpg" alt="2025 제천작은미술관 행사 스케치" onerror="this.src='https://img.youtube.com/vi/g1vTy8AlLGo/hqdefault.jpg'">
-          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        </a>
+
+  <div id="tab-video">
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filter('all', this, 'video')">🌾 전체</button>
+      <button class="filter-btn" onclick="filter('event', this, 'video')">🎪 행사 스케치</button>
+      <button class="filter-btn" onclick="filter('ad', this, 'video')">🎬 광고 / 상업</button>
+      <button class="filter-btn" onclick="filter('timelapse', this, 'video')">⏱ 타임랩스</button>
+      <button class="filter-btn" onclick="filter('ai', this, 'video')">🤖 AI 영상</button>
+    </div>
+    <div class="grid" id="grid-video">
+      <div class="card" data-cat="event">
+        <div class="card-thumb">
+          <a href="https://youtu.be/g1vTy8AlLGo" target="_blank">
+            <img src="https://img.youtube.com/vi/g1vTy8AlLGo/maxresdefault.jpg" alt="2025 제천작은미술관 행사 스케치" onerror="this.src='https://img.youtube.com/vi/g1vTy8AlLGo/hqdefault.jpg'">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">행사 스케치</div>
+          <div class="card-title">2025 제천작은미술관 행사 스케치</div>
+        </div>
       </div>
-      <div class="card-body">
-        <div class="card-cat">행사 스케치</div>
-        <div class="card-title">2025 제천작은미술관 행사 스케치</div>
+      <div class="card" data-cat="timelapse">
+        <div class="card-thumb">
+          <a href="https://youtu.be/xc_ufmQKIuI" target="_blank">
+            <img src="https://img.youtube.com/vi/xc_ufmQKIuI/maxresdefault.jpg" alt="리모델링 타임랩스" onerror="this.src='https://img.youtube.com/vi/xc_ufmQKIuI/hqdefault.jpg'">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">타임랩스</div>
+          <div class="card-title">리모델링 타임랩스</div>
+        </div>
+      </div>
+      <div class="card" data-cat="ad">
+        <div class="card-thumb">
+          <a href="https://youtu.be/_io9umdCKR8" target="_blank">
+            <img src="https://img.youtube.com/vi/_io9umdCKR8/maxresdefault.jpg" alt="광고 촬영 현장 스케치" onerror="this.src='https://img.youtube.com/vi/_io9umdCKR8/hqdefault.jpg'">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">광고 / 상업</div>
+          <div class="card-title">광고 촬영 현장 스케치</div>
+        </div>
+      </div>
+      <div class="card" data-cat="event">
+        <div class="card-thumb">
+          <a href="https://youtu.be/fxaK2ojYORk" target="_blank">
+            <img src="https://img.youtube.com/vi/fxaK2ojYORk/maxresdefault.jpg" alt="지자체 교육프로그램 스케치" onerror="this.src='https://img.youtube.com/vi/fxaK2ojYORk/hqdefault.jpg'">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">행사 스케치</div>
+          <div class="card-title">지자체 교육프로그램 스케치</div>
+        </div>
+      </div>
+      <div class="card" data-cat="ad event">
+        <div class="card-thumb">
+          <a href="https://youtu.be/CdBhhTvjLus" target="_blank">
+            <img src="https://img.youtube.com/vi/CdBhhTvjLus/maxresdefault.jpg" alt="평창관광문화재단 더위사냥축제 스팟광고" onerror="this.src='https://img.youtube.com/vi/CdBhhTvjLus/hqdefault.jpg'">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">광고 / 행사</div>
+          <div class="card-title">평창관광문화재단 더위사냥축제 스팟광고</div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="card" data-cat="timelapse">
-      <div class="card-thumb">
-        <a href="https://youtu.be/xc_ufmQKIuI" target="_blank">
-          <img src="https://img.youtube.com/vi/xc_ufmQKIuI/maxresdefault.jpg" alt="리모델링 타임랩스" onerror="this.src='https://img.youtube.com/vi/xc_ufmQKIuI/hqdefault.jpg'">
-          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        </a>
-      </div>
-      <div class="card-body">
-        <div class="card-cat">타임랩스</div>
-        <div class="card-title">리모델링 타임랩스</div>
-      </div>
+  <div id="tab-photo" style="display:none;">
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filter('all', this, 'photo')">🌾 전체</button>
+      <button class="filter-btn" onclick="filter('eventphoto', this, 'photo')">📸 행사 사진</button>
+      <button class="filter-btn" onclick="filter('interior', this, 'photo')">🏠 인테리어 사진</button>
+      <button class="filter-btn" onclick="filter('profile', this, 'photo')">🙂 프로필 사진</button>
     </div>
-
-    <div class="card" data-cat="ad">
-      <div class="card-thumb">
-        <a href="https://youtu.be/_io9umdCKR8" target="_blank">
-          <img src="https://img.youtube.com/vi/_io9umdCKR8/maxresdefault.jpg" alt="광고 촬영 현장 스케치" onerror="this.src='https://img.youtube.com/vi/_io9umdCKR8/hqdefault.jpg'">
-          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        </a>
-      </div>
-      <div class="card-body">
-        <div class="card-cat">광고 / 상업</div>
-        <div class="card-title">광고 촬영 현장 스케치</div>
-      </div>
-    </div>
-
-    <div class="card" data-cat="event">
-      <div class="card-thumb">
-        <a href="https://youtu.be/fxaK2ojYORk" target="_blank">
-          <img src="https://img.youtube.com/vi/fxaK2ojYORk/maxresdefault.jpg" alt="지자체 교육프로그램 스케치" onerror="this.src='https://img.youtube.com/vi/fxaK2ojYORk/hqdefault.jpg'">
-          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        </a>
-      </div>
-      <div class="card-body">
-        <div class="card-cat">행사 스케치</div>
-        <div class="card-title">지자체 교육프로그램 스케치</div>
-      </div>
-    </div>
-
-    <div class="card" data-cat="ad event">
-      <div class="card-thumb">
-        <a href="https://youtu.be/CdBhhTvjLus" target="_blank">
-          <img src="https://img.youtube.com/vi/CdBhhTvjLus/maxresdefault.jpg" alt="평창관광문화재단 더위사냥축제 스팟광고" onerror="this.src='https://img.youtube.com/vi/CdBhhTvjLus/hqdefault.jpg'">
-          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        </a>
-      </div>
-      <div class="card-body">
-        <div class="card-cat">광고 / 행사</div>
-        <div class="card-title">평창관광문화재단 더위사냥축제 스팟광고</div>
+    <div class="grid" id="grid-photo">
+      <div style="grid-column:1/-1; text-align:center; padding:60px 0; color:var(--gray);">
+        <div style="font-size:48px;margin-bottom:12px;">📸</div>
+        <div style="font-size:16px;font-weight:700;">사진 포트폴리오 준비 중이에요!</div>
+        <div style="font-size:13px;margin-top:6px;">곧 업데이트될 예정이에요 🌾</div>
       </div>
     </div>
   </div>
@@ -338,8 +356,8 @@ footer strong { color: var(--black); }
       <div class="team-desc">기획과 연출 담당<br>달달한 아이디어로 가득</div>
     </div>
     <div class="team-card">
-      <img src="https://ksj671717-lab.github.io/finance-dashboard/real_corn.png" alt="옥수수" style="width:100px;height:100px;object-fit:contain;margin-bottom:10px;">
-      <div class="team-name">옥수수</div>
+      <img src="https://ksj671717-lab.github.io/finance-dashboard/real_corn.png" alt="강냉이" style="width:100px;height:100px;object-fit:contain;margin-bottom:10px;">
+      <div class="team-name">강냉이</div>
       <div class="team-role">현장 분위기 메이커</div>
       <div class="team-desc">사운드 & 현장 담당<br>어디서든 빛나는 존재</div>
     </div>
@@ -380,10 +398,24 @@ footer strong { color: var(--black); }
 </footer>
 
 <script>
-function filter(cat, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+function switchTab(tab, btn) {
+  var vBtn = document.getElementById('tab-btn-video');
+  var pBtn = document.getElementById('tab-btn-photo');
+  vBtn.style.background = tab==='video' ? '#2A2118' : 'white';
+  vBtn.style.borderColor = tab==='video' ? '#2A2118' : '#EDE5D8';
+  vBtn.style.color = tab==='video' ? '#F1C453' : '#7A6A5A';
+  pBtn.style.background = tab==='photo' ? '#2A2118' : 'white';
+  pBtn.style.borderColor = tab==='photo' ? '#2A2118' : '#EDE5D8';
+  pBtn.style.color = tab==='photo' ? '#F1C453' : '#7A6A5A';
+  document.getElementById('tab-video').style.display = tab === 'video' ? 'block' : 'none';
+  document.getElementById('tab-photo').style.display = tab === 'photo' ? 'block' : 'none';
+}
+
+function filter(cat, btn, tab) {
+  const gridId = 'grid-' + (tab || 'video');
+  btn.closest('.filter-row').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.card').forEach(card => {
+  document.querySelectorAll('#' + gridId + ' .card').forEach(card => {
     if (cat === 'all' || card.dataset.cat.includes(cat)) {
       card.classList.remove('hidden');
     } else {
